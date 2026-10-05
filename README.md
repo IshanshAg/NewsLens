@@ -28,40 +28,40 @@ NewsLens provides an automated, objective NLP diagnostic pipeline for media lite
 
 
 ## **Architecture & Pipeline Overview**
-┌───────────────────────────┐
-│     Input News Article    │
-└─────────────┬─────────────┘
-              │
-              ▼
-┌───────────────────────────┐
-│   spaCy Preprocessing     │
-│   & Linguistic Layer      │
-└─────────────┬─────────────┘
-              │
-    ┌─────────┼─────────┐
-    │         │         │
-    ▼         ▼         ▼
-┌───────┐ ┌───────┐ ┌───────┐
-│Senti- │ │ Bias  │ │TF-IDF │
-│ ment  │ │Engine │ │Keys   │
-└───┬───┘ └───┬───┘ └───┬───┘
-    │         │         │
-    └─────────┼─────────┘
-              │
-              ▼
-┌───────────────────────────┐
-│ Structured Pipeline Data  │
-└─────────────┬─────────────┘
-              │
-              ▼
-┌───────────────────────────┐
-│  Google Gemini 2.5 LLM    │
-└─────────────┬─────────────┘
-              │
-              ▼
-┌───────────────────────────┐
-│    Streamlit Dashboard    │
-└───────────────────────────┘
+- ┌───────────────────────────┐
+- │     Input News Article    │
+- └─────────────┬─────────────┘
+-               │
+-               ▼
+- ┌───────────────────────────┐
+- │   spaCy Preprocessing     │
+- │   & Linguistic Layer      │
+- └─────────────┬─────────────┘
+-               │
+-     ┌─────────┼─────────┐
+-     │         │         │
+-     ▼         ▼         ▼
+- ┌───────┐ ┌───────┐ ┌───────┐
+- │Senti- │ │ Bias  │ │TF-IDF │
+- │ ment  │ │Engine │ │Keys   │
+- └───┬───┘ └───┬───┘ └───┬───┘
+-     │         │         │
+-     └─────────┼─────────┘
+-               │
+-               ▼
+- ┌───────────────────────────┐
+- │ Structured Pipeline Data  │
+- └─────────────┬─────────────┘
+-               │
+-               ▼
+- ┌───────────────────────────┐
+- │  Google Gemini 2.5 LLM    │
+- └─────────────┬─────────────┘
+-               │
+-               ▼
+- ┌───────────────────────────┐
+- │    Streamlit Dashboard    │
+- └───────────────────────────┘
 
 
 ## **Quantitative Model Evaluation**
@@ -84,51 +84,51 @@ Confusion Matrix:
 
 2. **Dual Sentiment Model Performance (Overall Accuracy: 85.0% | Weighted F1: 0.85)**
 
-**Class**	**Precision**	**Recall**	**F1-Score**	**Support**
-NEGATIVE	1.00	0.82	0.90	11
-NEUTRAL	0.71	1.00	0.83	5
-POSITIVE	0.75	0.75	0.75	4
+- **Class**	**Precision**	**Recall**	**F1-Score**	**Support**
+- NEGATIVE	1.00	0.82	0.90	11
+- NEUTRAL	0.71	1.00	0.83	5
+- POSITIVE	0.75	0.75	0.75	4
 
 3. **LLM Qualitative Evaluation Rubric (N=10 Runs)**
 
-**Evaluation Dimension**	**Average Score (1–5)**	**Diagnostic Notes**
-Relevance	4.8 / 5.0	Accurately identifies prioritized narrative angles.
-Grounding	4.7 / 5.0	Strictly anchors claims to NLP metrics provided in prompt context.
-Neutrality	4.9 / 5.0	Maintains analytical, non-judgmental diagnostic tone.
-Hallucination Rate	4.8 / 5.0	Zero fabricated quotes or false terminology observed.
-Completeness	4.6 / 5.0	Fully covers framing, stance, and critical guidance.
-Readability & Structure	4.9 / 5.0	Strict markdown section adherence without unnecessary conversational filler.
+- **Evaluation Dimension**	**Average Score (1–5)**	**Diagnostic Notes**
+- Relevance	4.8 / 5.0	Accurately identifies prioritized narrative angles.
+- Grounding	4.7 / 5.0	Strictly anchors claims to NLP metrics provided in prompt context.
+- Neutrality	4.9 / 5.0	Maintains analytical, non-judgmental diagnostic tone.
+- Hallucination Rate	4.8 / 5.0	Zero fabricated quotes or false terminology observed.
+- Completeness	4.6 / 5.0	Fully covers framing, stance, and critical guidance.
+- Readability & Structure	4.9 / 5.0	Strict markdown section adherence without unnecessary conversational filler.
 
 
 ## **Repository Structure**
 
-NewsLens/
-│
-├── app.py                     # Streamlit Interactive Web Application
-├── evaluate_pipeline.py       # Automated scikit-learn Evaluation Script
-├── requirements.txt           # Project Dependencies
-├── evaluation.txt             # Generated Benchmark Evaluation Metrics Report
-├── .env.example               # Safe Template for Environment Variables
-│
-├── config/
-│   └── config.yaml            # Model & Pipeline Configurations
-│
-├── data/
-│   └── sample_articles/       # Preset News Benchmark Texts
-│
-├── prompts/
-│   └── news_analysis.txt      # Gemini LLM Prompt Template
-│
-├── src/
-│   ├── __init__.py
-│   ├── preprocessing.py       # spaCy Tokenization, POS, NER, and TF-IDF
-│   ├── sentiment.py           # VADER & DistilBERT Sentiment Classifiers
-│   ├── bias_detector.py       # 4-Category Lexicon Bias & Density Engine
-│   ├── llm_explainer.py       # Google Gemini API Prompt Engine
-│   └── utils.py               # YAML Config & Helper Functions
-│
-└── tests/
-    └── evaluation_dataset.json # Ground-Truth Evaluation Benchmark (N=20)
+- NewsLens/
+- │
+- ├── app.py                     # Streamlit Interactive Web Application
+- ├── evaluate_pipeline.py       # Automated scikit-learn Evaluation Script
+- ├── requirements.txt           # Project Dependencies
+- ├── evaluation.txt             # Generated Benchmark Evaluation Metrics Report
+- ├── .env.example               # Safe Template for Environment Variables
+- │
+- ├── config/
+- │   └── config.yaml            # Model & Pipeline Configurations
+- │
+- ├── data/
+- │   └── sample_articles/       # Preset News Benchmark Texts
+- │
+- ├── prompts/
+- │   └── news_analysis.txt      # Gemini LLM Prompt Template
+- │
+- ├── src/
+- │   ├── __init__.py
+- │   ├── preprocessing.py       # spaCy Tokenization, POS, NER, and TF-IDF
+- │   ├── sentiment.py           # VADER & DistilBERT Sentiment Classifiers
+- │   ├── bias_detector.py       # 4-Category Lexicon Bias & Density Engine
+- │   ├── llm_explainer.py       # Google Gemini API Prompt Engine
+- │   └── utils.py               # YAML Config & Helper Functions
+- │
+- └── tests/
+-     └── evaluation_dataset.json # Ground-Truth Evaluation Benchmark (N=20)
 
 
 ## **Quickstart & Installation**
@@ -140,11 +140,11 @@ cd NewsLens
 
 2. Set Up Virtual Environment
 
-# Windows:
+Windows:
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 
-# Linux / macOS:
+Linux / macOS:
 python3 -m venv venv
 source venv/bin/activate
 
@@ -162,7 +162,7 @@ GEMINI_API_KEY="your_google_gemini_api_key_here"
 5. Launch Application
 
 streamlit run app.py
-# Access at http://localhost:8501
+Access at http://localhost:8501
 
 
 ## **Limitations & Future Scope**
