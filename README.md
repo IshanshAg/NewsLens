@@ -84,10 +84,11 @@ Confusion Matrix:
 
 2. **Dual Sentiment Model Performance (Overall Accuracy: 85.0% | Weighted F1: 0.85)**
 
-- **Class**	**Precision**	**Recall**	**F1-Score**	**Support**
-- NEGATIVE	1.00	0.82	0.90	11
-- NEUTRAL	0.71	1.00	0.83	5
-- POSITIVE	0.75	0.75	0.75	4
+- | Class | Precision | Recall | F1-Score | Support |
+- | :--- | :---: | :---: | :---: | :---: |
+- | **NEGATIVE** | 1.00 | 0.82 | 0.90 | 11 |
+- | **NEUTRAL** | 0.71 | 1.00 | 0.83 | 5 |
+- | **POSITIVE** | 0.75 | 0.75 | 0.75 | 4 |
 
 3. **LLM Qualitative Evaluation Rubric (N=10 Runs)**
 
