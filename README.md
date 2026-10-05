@@ -2,15 +2,14 @@
 An end-to-end Natural Language Processing system for analyzing the sentiment, linguistic patterns, and potential bias indicators in news articles, with contextual interpretation powered by an LLM.
 
 ## Student Information
-
-| Field | Details |
-| **Name** | Ishansh Agarwal |
-| **Registration Number** | 23FE10CDS00362 |
-| **Branch** | Data Science |
-| **Batch** | E |
-| **Project Title** | NewsLens — NLP-Based News Bias & Sentiment Analyzer |
-| **GitHub Username** | [@IshanshAg](https://github.com/IshanshAg) |
-| **Training Program** | DATA SCIENCE |
+ 
+**Name** - Ishansh Agarwal 
+**Registration Number** - 23FE10CDS00362 
+**Branch** - Data Science 
+**Batch** - E 
+**Project Title** - NewsLens — NLP-Based News Bias & Sentiment Analyzer 
+**GitHub Username** - [@IshanshAg](https://github.com/IshanshAg) 
+**Training Program** - DATA SCIENCE 
 
 # 1. Project Overview
 
