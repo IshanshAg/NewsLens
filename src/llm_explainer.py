@@ -52,34 +52,45 @@ def generate_llm_analysis(
             "Get a free key from [Google AI Studio](https://aistudio.google.com/)."
         )
 
-    # Extract features for prompt context
-    word_count = ling_features.get("word_count", 0)
+    # Extract NLP & Bias context from pipeline dictionary output
+    word_count = ling_features.get("word_count", len(text.split()))
     sentiment_label = sentiment_res.get("primary_label", "NEUTRAL")
-    sensational_words = bias_res.get("sensational_words", [])
-    bias_words = bias_res.get("bias_words", [])
+    vader_compound = sentiment_res.get("vader_compound", 0.0)
+
+    sensational = bias_res.get("sensational_terms", [])
+    absolute = bias_res.get("absolute_terms", [])
+    subjective = bias_res.get("subjective_terms", [])
+    loaded = bias_res.get("loaded_terms", [])
 
     prompt = f"""
-Analyze the following news article snippet for framing and bias using the provided NLP context.
+You are an expert media literacy analyst evaluating a news article snippet for framing, stance, and linguistic bias indicators.
 
 Article Snippet:
 "{text[:2000]}"
 
-NLP Metrics Context:
+Rule-Based NLP Metrics Context:
 - Word Count: {word_count}
-- Primary Sentiment: {sentiment_label}
-- Sensational Terms: {', '.join(sensational_words) if sensational_words else 'None'}
-- Loaded/Bias Terms: {', '.join(bias_words) if bias_words else 'None'}
+- Primary Sentiment: {sentiment_label} (VADER Compound: {vader_compound})
+- Rule-Based Sensational Terms: {', '.join(sensational) if sensational else 'None'}
+- Rule-Based Absolute Terms: {', '.join(absolute) if absolute else 'None'}
+- Rule-Based Subjective Terms: {', '.join(subjective) if subjective else 'None'}
+- Rule-Based Loaded Terms: {', '.join(loaded) if loaded else 'None'}
 
-Provide a thorough analysis strictly following these three section headers (do not include introductory or conversational fluff before the first header):
+ANALYSIS GUIDELINES:
+1. Do NOT state that the article is politically or objectively "biased". Use neutral diagnostic terminology such as "potential linguistic bias indicators", "loaded language", "subjective framing", or "absolute/certainty language".
+2. Treat rule-based indicators as baseline evidence. If you notice additional charged or manipulative phrasing in the article snippet that was missed by the rule-based detector, explicitly list them in a dedicated subsection titled "**LLM-Identified Additional Terms**".
+3. Clearly distinguish between rule-based detected terms and LLM-identified additional terms.
 
-### 1. Executive Framing Summary
-[Explain the primary narrative angle or perspective prioritized]
+Provide your response strictly following these three section headers (do not output any introductory fluff or chat responses before the first header):
 
-### 2. Linguistic Stance & Tone
-[Analyze how loaded words, emotional tone, and sentence structure shape reader perception]
+### 1. Executive Framing & Stance
+Analyze the main perspective or narrative angle prioritized by the article.
 
-### 3. Media Literacy Recommendation
-[Give actionable guidance on how a critical reader should evaluate this coverage]
+### 2. Linguistic Indicators Breakdown
+Analyze how loaded words, emotional tone, and absolute phrasing shape reader perception. Include the comparison between rule-based detected terms and any additional terms identified by the LLM.
+
+### 3. Critical Media Literacy Recommendation
+Provide actionable guidance on how a critical reader should evaluate this coverage.
 """
 
     try:

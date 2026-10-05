@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "text": "The government today announced a disastrous economic reform package that will unquestionably destroy local businesses across the nation. In a shocking display of arrogance, incompetent officials claimed the draconian policy would boost long-term growth.",
+    "ground_truth_has_bias": true,
+    "ground_truth_sentiment": "NEGATIVE"
+  },
+  {
+    "id": 2,
+    "text": "The municipal council convened on Tuesday morning to review proposed amendments to local zoning ordinances following public comments received during last month's hearing.",
+    "ground_truth_has_bias": false,
+    "ground_truth_sentiment": "NEUTRAL"
+  },
+  {
+    "id": 3,
+    "text": "A severe 6.8 magnitude earthquake struck the coastal region early Sunday, destroying several bridges and leaving thousands without electric power as rescue teams deployed.",
+    "ground_truth_has_bias": false,
+    "ground_truth_sentiment": "NEGATIVE"
+  },
+  {
+    "id": 4,
+    "text": "In an appalling and reckless move, corporate executives unveiled a covert scheme to slash worker benefits while pocketing record-breaking bonus checks.",
+    "ground_truth_has_bias": true,
+    "ground_truth_sentiment": "NEGATIVE"
+  },
+  {
+    "id": 5,
+    "text": "Researchers at the institute published a peer-reviewed study demonstrating a 15% increase in agricultural yield following the adoption of modern drip irrigation methods.",
+    "ground_truth_has_bias": false,
+    "ground_truth_sentiment": "POSITIVE"
+  },
+  {
+    "id": 6,
+    "text": "The opposition party launched a blistering attack on the administration, labeling the foreign policy directive a complete failure that threatens national security.",
+    "ground_truth_has_bias": true,
+    "ground_truth_sentiment": "NEGATIVE"
+  },
+  {
+    "id": 7,
+    "text": "Quarterly inflation rates eased slightly to 3.2% in September, matching central bank projections and signaling potential stabilization in retail consumer markets.",
+    "ground_truth_has_bias": false,
+    "ground_truth_sentiment": "POSITIVE"
+  },
+  {
+    "id": 8,
+    "text": "Out of touch politicians once again demonstrated their complete inability to govern by approving an absurd tax hike that burdens working-class families.",
+    "ground_truth_has_bias": true,
+    "ground_truth_sentiment": "NEGATIVE"
+  },
+  {
+    "id": 9,
+    "text": "The department of transportation initiated scheduled resurfacing work along Highway 101, closing two northbound lanes through Friday evening.",
+    "ground_truth_has_bias": false,
+    "ground_truth_sentiment": "NEUTRAL"
+  },
+  {
+    "id": 10,
+    "text": "This monstrous legislation is an unprecedented threat to personal freedom, cooked up by corrupt lawmakers seeking to silence public dissent.",
+    "ground_truth_has_bias": true,
+    "ground_truth_sentiment": "NEGATIVE"
+  },
+  {
+    "id": 11,
+    "text": "Volunteers gathered at the central park over the weekend to plant over five hundred native trees as part of the city's annual urban forestry initiative.",
+    "ground_truth_has_bias": false,
+    "ground_truth_sentiment": "POSITIVE"
+  },
+  {
+    "id": 12,
+    "text": "The company reported a third-quarter revenue decline of 4% due to ongoing supply chain constraints and higher material import tariffs.",
+    "ground_truth_has_bias": false,
+    "ground_truth_sentiment": "NEGATIVE"
+  },
+  {
+    "id": 13,
+    "text": "Critics blasted the administration's catastrophic healthcare overhaul, warning that the draconian mandates will create a bloodbath in patient care standards.",
+    "ground_truth_has_bias": true,
+    "ground_truth_sentiment": "NEGATIVE"
+  },
+  {
+    "id": 14,
+    "text": "The federal agency issued an advisory recommending updated cybersecurity practices for small and medium-sized enterprise networks.",
+    "ground_truth_has_bias": false,
+    "ground_truth_sentiment": "NEUTRAL"
+  },
+  {
+    "id": 15,
+    "text": "With blatant disregard for public interest, regulators quietly granted exemptions to major industrial polluters in a shameful betrayal of environmental pledges.",
+    "ground_truth_has_bias": true,
+    "ground_truth_sentiment": "NEGATIVE"
+  },
+  {
+    "id": 16,
+    "text": "The regional transit authority introduced twenty new electric buses to the city fleet, reducing diesel fuel consumption on heavy commuter routes.",
+    "ground_truth_has_bias": false,
+    "ground_truth_sentiment": "POSITIVE"
+  },
+  {
+    "id": 17,
+    "text": "A total collapse of democratic norms is imminent under this authoritarian agenda, which seeks to systematically dismantle independent judicial oversight.",
+    "ground_truth_has_bias": true,
+    "ground_truth_sentiment": "NEGATIVE"
+  },
+  {
+    "id": 18,
+    "text": "Meteorologists forecast light rain showers across the northern district late Thursday, accompanied by moderate westerly winds.",
+    "ground_truth_has_bias": false,
+    "ground_truth_sentiment": "NEUTRAL"
+  },
+  {
+    "id": 19,
+    "text": "In an unbelievable turn of events, the CEO surrendered his tenure following a scandalous investigation into misplaced pension funds.",
+    "ground_truth_has_bias": true,
+    "ground_truth_sentiment": "NEGATIVE"
+  },
+  {
+    "id": 20,
+    "text": "The university host committee confirmed the dates for the upcoming annual technology symposium scheduled for early November.",
+    "ground_truth_has_bias": false,
+    "ground_truth_sentiment": "NEUTRAL"
+  }
+]

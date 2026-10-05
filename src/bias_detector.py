@@ -1,72 +1,92 @@
-import re
-from typing import Dict, List, Any
+import logging
+from typing import Dict, Any, List, Set
 import spacy
-from src.preprocessing import extract_linguistic_features, clean_text
 
-nlp = spacy.load("en_core_web_sm")
+logger = logging.getLogger("NewsLens.BiasDetector")
+logger.setLevel(logging.DEBUG)
 
-# Rule-based linguistic lexicons for bias detection
-LOADED_WORDS = {
-    "disastrous", "incompetent", "outrageous", "corrupt", "unprecedented",
-    "scandalous", "catastrophic", "shocking", "draconian", "miraculous",
-    "tyrannical", "heroic", "devastating", "monstrous", "blatant"
-}
-
-ABSOLUTE_TERMS = {
-    "always", "never", "everyone", "nobody", "completely", "undeniably",
-    "unquestionably", "totally", "absolutely", "certainly", "impossible"
-}
-
-
-def detect_bias_indicators(text: str) -> Dict[str, Any]:
-    """
-    Scans the text for loaded terminology, absolute statements, subjective qualifiers,
-    and calculates an overall linguistic bias score index (0 to 100).
-    """
-    cleaned = clean_text(text)
-    if not cleaned:
-        return {
-            "loaded_words_found": [],
-            "absolute_terms_found": [],
-            "subjective_adjectives": [],
-            "bias_score": 0.0,
-            "counts": {"loaded": 0, "absolutes": 0, "subjective": 0}
-        }
-
-    doc = nlp(cleaned)
-    tokens_lower = [token.text.lower() for token in doc if not token.is_punct]
-    word_count = max(len(tokens_lower), 1)
-
-    # 1. Detect Loaded Words
-    loaded_found = list(set([word for word in tokens_lower if word in LOADED_WORDS]))
-
-    # 2. Detect Absolute Statements
-    absolutes_found = list(set([word for word in tokens_lower if word in ABSOLUTE_TERMS]))
-
-    # 3. Detect Subjective Adjectives (Adjectives not used purely as classifiers)
-    subjective_adj = list(set([
-        token.text.lower() for token in doc 
-        if token.pos_ == "ADJ" and token.text.lower() not in loaded_found
-        and len(token.text) > 3
-    ]))[:10]  # Cap top 10
-
-    # 4. Calculate Quantified Bias Score Index
-    # Density metric normalized per 100 words
-    loaded_density = (len(loaded_found) / word_count) * 100
-    absolute_density = (len(absolutes_found) / word_count) * 100
-    subjective_density = (len(subjective_adj) / word_count) * 100
-
-    raw_score = (loaded_density * 35.0) + (absolute_density * 25.0) + (subjective_density * 15.0)
-    bias_score = min(round(raw_score, 2), 100.0)
-
-    return {
-        "loaded_words_found": loaded_found,
-        "absolute_terms_found": absolutes_found,
-        "subjective_adjectives": subjective_adj,
-        "bias_score": bias_score,
-        "counts": {
-            "loaded": len(loaded_found),
-            "absolutes": len(absolutes_found),
-            "subjective": len(subjective_adj)
-        }
+# Categorized Lexicons
+LEXICONS = {
+    "sensational_terms": {
+        "disastrous", "shocking", "monstrous", "outrageous", "devastating", 
+        "catastrophic", "reckless", "absurd", "arrogant", "incompetent", 
+        "draconian", "appalling", "horrific", "unbelievable", "scandalous"
+    },
+    "absolute_terms": {
+        "always", "never", "completely", "unquestionably", "undeniably", 
+        "certainly", "everyone", "nobody", "proves", "prove", "totally", 
+        "absolutely", "undoubtedly", "without a doubt"
+    },
+    "subjective_terms": {
+        "incompetent", "arrogant", "terrible", "excellent", "ridiculous", 
+        "irresponsible", "disastrous", "monstrous", "foolish", "blatant",
+        "out of touch", "disgraceful"
+    },
+    "loaded_terms": {
+        "destroy", "outrage", "failure", "crisis", "alarming", "shocking", 
+        "threat", "scheme", "plot", "draconian", "disaster", "bloodbath"
     }
+}
+
+def analyze_bias_and_loaded_language(doc: spacy.tokens.Doc) -> Dict[str, Any]:
+    """
+    Analyzes a spaCy Doc for linguistic bias indicators using lemmatization,
+    case-insensitivity, and rule-based lexicon matching.
+    """
+    raw_text = doc.text
+    tokens_text = [token.text.lower() for token in doc if not token.is_punct and not token.is_space]
+
+    detected_sensational: Set[str] = set()
+    detected_absolute: Set[str] = set()
+    detected_subjective: Set[str] = set()
+    detected_loaded: Set[str] = set()
+
+    # 1. Token & Lemma Scanning
+    for token in doc:
+        if token.is_punct or token.is_space:
+            continue
+            
+        t_lower = token.text.lower()
+        l_lower = token.lemma_.lower()
+
+        if t_lower in LEXICONS["sensational_terms"] or l_lower in LEXICONS["sensational_terms"]:
+            detected_sensational.add(t_lower)
+        if t_lower in LEXICONS["absolute_terms"] or l_lower in LEXICONS["absolute_terms"]:
+            detected_absolute.add(t_lower)
+        if t_lower in LEXICONS["subjective_terms"] or l_lower in LEXICONS["subjective_terms"]:
+            detected_subjective.add(t_lower)
+        if t_lower in LEXICONS["loaded_terms"] or l_lower in LEXICONS["loaded_terms"]:
+            detected_loaded.add(t_lower)
+
+    # 2. Multi-word Phrase Scanning
+    text_lower = raw_text.lower()
+    if "out of touch" in text_lower:
+        detected_subjective.add("out of touch")
+
+    # 3. Calculate Indicators and Density Score
+    all_unique_indicators = (
+        detected_sensational | detected_absolute | detected_subjective | detected_loaded
+    )
+    total_indicators = len(all_unique_indicators)
+    word_count = max(len(tokens_text), 1)
+    
+    bias_score = min(round((total_indicators / word_count) * 10, 4), 1.0)
+
+    results = {
+        "sensational_terms": sorted(list(detected_sensational)),
+        "absolute_terms": sorted(list(detected_absolute)),
+        "subjective_terms": sorted(list(detected_subjective)),
+        "loaded_terms": sorted(list(detected_loaded)),
+        "total_indicators": total_indicators,
+        "bias_score": bias_score
+    }
+
+    # Debug Logs
+    logger.debug(f"RAW TEXT: {raw_text[:80]}...")
+    logger.debug(f"DETECTED SENSATIONAL: {results['sensational_terms']}")
+    logger.debug(f"DETECTED ABSOLUTE: {results['absolute_terms']}")
+    logger.debug(f"DETECTED SUBJECTIVE: {results['subjective_terms']}")
+    logger.debug(f"DETECTED LOADED: {results['loaded_terms']}")
+    logger.debug(f"TOTAL INDICATORS: {total_indicators} | SCORE: {bias_score}")
+
+    return results
