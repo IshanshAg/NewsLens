@@ -5,8 +5,8 @@ An end-to-end Natural Language Processing system for analyzing sentiment polarit
 
 ## Author & Academic Information
 
-**Name:** Ishansh Agarwal \n 
-**Registration Number:** 23FE10CDS00362
+- **Name:** Ishansh Agarwal
+- **Registration Number:** 23FE10CDS00362
 - **Branch:** Data Science
 - **Batch:** Batch E
 - **Project Title:** NewsLens — NLP-Based News Bias & Sentiment Analyzer
